@@ -6,7 +6,9 @@ import {
   faClose,
   faAngleDown,
 } from '@fortawesome/free-solid-svg-icons';
+import { User } from '@models/user.model';
 import { AuthService } from '@services/auth.service';
+import { TokenService } from '@services/token.service';
 
 @Component({
   selector: 'app-navbar',
@@ -21,10 +23,20 @@ export class NavbarComponent {
   isOpenOverlayAvatar = false;
   isOpenOverlayBoards = false;
 
-  constructor(private authSrv: AuthService, private router: Router) {}
+  user$ = this.authSrv.user$;
+
+  constructor(
+    private authSrv: AuthService,
+    private router: Router,
+    private tokenSrv: TokenService
+  ) {}
 
   logout() {
     this.authSrv.logout();
     this.router.navigate(['/login']);
+  }
+
+  isValidToken() {
+    console.log(this.tokenSrv.isValidToken());
   }
 }
